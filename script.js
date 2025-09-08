@@ -64,15 +64,36 @@ function updateProgressBar() {
 
 // Animated Counters
 function initializeCounters() {
-    let videoCount = 528491;
+    let targetCount = 259654;
+    let currentCount = 0;
     let timeMinutes = 0;
     let timeSeconds = 0;
     
-    // Video counter - increment every 3 seconds
-    setInterval(() => {
-        videoCount += Math.floor(Math.random() * 3) + 1;
-        videoCounter.textContent = videoCount.toLocaleString();
-    }, 3000);
+    // Fast animated counter that counts from 0 to target
+    function animateCounter() {
+        const duration = 1500; // 1.5 seconds for faster counting
+        const increment = targetCount / (duration / 20); // Update every 20ms for smoother animation
+        
+        const counterInterval = setInterval(() => {
+            currentCount += increment;
+            if (currentCount >= targetCount) {
+                currentCount = targetCount;
+                videoCounter.textContent = Math.floor(currentCount).toLocaleString();
+                clearInterval(counterInterval);
+                
+                // After reaching target, continue incrementing every 3 seconds
+                setInterval(() => {
+                    targetCount += Math.floor(Math.random() * 5) + 2;
+                    videoCounter.textContent = targetCount.toLocaleString();
+                }, 3000);
+            } else {
+                videoCounter.textContent = Math.floor(currentCount).toLocaleString();
+            }
+        }, 20);
+    }
+    
+    // Start animation immediately when page loads
+    setTimeout(animateCounter, 300);
     
     // Time saved counter - increment based on scroll
     window.addEventListener('scroll', () => {
