@@ -4,8 +4,7 @@ const videoCounter = document.getElementById('videoCounter');
 const timeSaved = document.getElementById('timeSaved');
 const particlesContainer = document.getElementById('particles');
 const floatingCta = document.getElementById('floatingCta');
-const quizModal = document.getElementById('quizModal');
-const quizClose = document.getElementById('quizClose');
+// Quiz modal references removed
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeFAQ();
     initializeScrollAnimations();
     initializeFloatingCTA();
-    initializeQuiz();
-    initializeExitIntent();
     
     // Add loading animation
     document.body.classList.add('loaded');
@@ -164,209 +161,9 @@ function initializeFloatingCTA() {
     });
 }
 
-// Interactive Quiz
-function initializeQuiz() {
-    const quizStyles = {
-        social: {
-            style: '🎬 Social Media Viral',
-            description: 'Short, engaging videos perfect for TikTok, Instagram, and YouTube Shorts. High impact, trending content.'
-        },
-        business: {
-            style: '💼 Professional Business',
-            description: 'Clean, corporate videos for presentations, training, and company communications. Professional and polished.'
-        },
-        education: {
-            style: '📚 Educational Content',
-            description: 'Informative, easy-to-follow videos perfect for tutorials, courses, and knowledge sharing.'
-        },
-        marketing: {
-            style: '🚀 Marketing Campaign',
-            description: 'Persuasive, conversion-focused videos designed to drive sales and engagement. High-converting content.'
-        }
-    };
-    
-    // Show quiz after 30 seconds
-    setTimeout(() => {
-        if (!localStorage.getItem('quizCompleted')) {
-            quizModal.classList.add('active');
-        }
-    }, 30000);
-    
-    // Close quiz
-    quizClose.addEventListener('click', () => {
-        quizModal.classList.remove('active');
-    });
-    
-    // Handle quiz options
-    const quizOptions = document.querySelectorAll('.quiz-option');
-    quizOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            const answer = option.dataset.answer;
-            showQuizResult(quizStyles[answer]);
-            localStorage.setItem('quizCompleted', 'true');
-        });
-    });
-    
-    function showQuizResult(result) {
-        const quizQuestion = document.querySelector('.quiz-question');
-        const quizResult = document.getElementById('quizResult');
-        const resultStyle = document.getElementById('resultStyle');
-        const resultDescription = document.getElementById('resultDescription');
-        
-        quizQuestion.classList.remove('active');
-        quizResult.classList.add('active');
-        
-        resultStyle.textContent = result.style;
-        resultDescription.textContent = result.description;
-    }
-}
+// Quiz functionality removed as per user request
 
-// Exit Intent Detection
-function initializeExitIntent() {
-    let hasTriggered = false;
-    
-    document.addEventListener('mouseleave', (e) => {
-        if (!hasTriggered && e.clientY <= 0) {
-            hasTriggered = true;
-            
-            // Show exit intent popup after a delay
-            setTimeout(() => {
-                if (!localStorage.getItem('exitIntentShown')) {
-                    showExitIntentPopup();
-                    localStorage.setItem('exitIntentShown', 'true');
-                }
-            }, 1000);
-        }
-    });
-}
-
-function showExitIntentPopup() {
-    // Create exit intent overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'exit-intent-overlay';
-    overlay.innerHTML = `
-        <div class="exit-intent-popup">
-            <div class="exit-intent-content">
-                <h3>Wait! Don't miss out! 🌟</h3>
-                <p>Get instant access to the most powerful AI video generator. Create your first video in minutes!</p>
-                <div class="exit-intent-buttons">
-                    <a href="https://invideo.sjv.io/xLDV53" class="btn-exit-yes" target="_blank" rel="noopener">
-                        Yes, Create My Video Now!
-                    </a>
-                    <button class="btn-exit-no">Maybe Later</button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    // Add styles
-    const styles = `
-        .exit-intent-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-        }
-        
-        .exit-intent-popup {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            max-width: 500px;
-            margin: 2rem;
-            backdrop-filter: blur(20px);
-            animation: popupSlideIn 0.5s ease;
-        }
-        
-        @keyframes popupSlideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .exit-intent-content h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #00f0ff, #ff2a6d);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .exit-intent-content p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
-        .exit-intent-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn-exit-yes {
-            padding: 1rem 2rem;
-            background: linear-gradient(45deg, #00f0ff, #ff2a6d);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: transform 0.3s ease;
-        }
-        
-        .btn-exit-yes:hover {
-            transform: translateY(-2px) scale(1.05);
-        }
-        
-        .btn-exit-no {
-            padding: 1rem 2rem;
-            background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-exit-no:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-    `;
-    
-    // Add styles to head
-    const styleSheet = document.createElement('style');
-    styleSheet.textContent = styles;
-    document.head.appendChild(styleSheet);
-    
-    document.body.appendChild(overlay);
-    
-    // Handle close
-    overlay.querySelector('.btn-exit-no').addEventListener('click', () => {
-        overlay.remove();
-        styleSheet.remove();
-    });
-    
-    // Close on overlay click
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-            overlay.remove();
-            styleSheet.remove();
-        }
-    });
-}
+// Exit intent popup removed as per user request
 
 // Smooth scrolling for anchor links
 document.addEventListener('click', (e) => {
@@ -490,13 +287,11 @@ window.addEventListener('error', (e) => {
     });
 });
 
-// Add keyboard navigation support
+// Keyboard navigation support (popups removed)
 document.addEventListener('keydown', (e) => {
-    // Escape key closes modals
+    // Escape key functionality - popups removed as per user request
     if (e.key === 'Escape') {
-        if (quizModal.classList.contains('active')) {
-            quizModal.classList.remove('active');
-        }
+        // Future modal support can be added here
     }
 });
 
